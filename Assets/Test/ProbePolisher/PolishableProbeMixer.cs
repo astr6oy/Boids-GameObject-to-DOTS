@@ -76,8 +76,8 @@ public class PolishableProbeMixer : MonoBehaviour
         var mixIndex = Mathf.FloorToInt(mix);
         if (mixIndex == sourceProbes.Length - 1) mixIndex--;
 
-        var source1 = ProbePolisher.NewVectorArrayFromCoeffs(sourceProbes[mixIndex + 0].coefficients, 27 * 2);
-        var source2 = ProbePolisher.NewVectorArrayFromCoeffs(sourceProbes[mixIndex + 1].coefficients, 27 * 2);
+        var source1 = ProbePolisher.NewVectorArrayFromCoeffs(ProbePolisher.GetCoefficientsArray(sourceProbes[mixIndex + 0]), 27 * 2);
+        var source2 = ProbePolisher.NewVectorArrayFromCoeffs(ProbePolisher.GetCoefficientsArray(sourceProbes[mixIndex + 1]), 27 * 2);
 
         // Mix the two probes.
         var coeffs = new Vector3[9];
@@ -86,9 +86,9 @@ public class PolishableProbeMixer : MonoBehaviour
             coeffs[i] = Vector3.Lerp(source1[i], source2[i], mixRate) * intensity;
 
         // Update the probe with the mixed coefficients.
-        var temp = probe.coefficients;
+        var temp = ProbePolisher.GetCoefficientsArray(probe);
         ProbePolisher.UpdateCoeffsWithVectorArray(temp, coeffs);
-        probe.coefficients = temp;
+        ProbePolisher.SetCoefficientsArray(probe, temp);
 
         // Update the skybox if needed.
         if (updateSkybox && skybox != null)

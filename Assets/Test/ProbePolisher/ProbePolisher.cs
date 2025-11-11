@@ -56,6 +56,39 @@ public static class ProbePolisher
         return coeffs;
     }
 
+    // Converts bakedProbes (SphericalHarmonicsL2[]) to float[] coefficients array.
+    public static float[] GetCoefficientsArray(LightProbes probes)
+    {
+        var bakedProbes = probes.bakedProbes;
+        var coeffs = new float[bakedProbes.Length * 27];
+        for (int i = 0; i < bakedProbes.Length; i++)
+        {
+            for (int c = 0; c < 9; c++)
+            {
+                coeffs[i * 27 + c] = bakedProbes[i][0, c];        // red channel
+                coeffs[i * 27 + 9 + c] = bakedProbes[i][1, c];    // green channel
+                coeffs[i * 27 + 18 + c] = bakedProbes[i][2, c];   // blue channel
+            }
+        }
+        return coeffs;
+    }
+
+    // Converts float[] coefficients array to bakedProbes (SphericalHarmonicsL2[]).
+    public static void SetCoefficientsArray(LightProbes probes, float[] coeffs)
+    {
+        var bakedProbes = new UnityEngine.Rendering.SphericalHarmonicsL2[coeffs.Length / 27];
+        for (int i = 0; i < bakedProbes.Length; i++)
+        {
+            for (int c = 0; c < 9; c++)
+            {
+                bakedProbes[i][0, c] = coeffs[i * 27 + c];        // red channel
+                bakedProbes[i][1, c] = coeffs[i * 27 + 9 + c];    // green channel
+                bakedProbes[i][2, c] = coeffs[i * 27 + 18 + c];   // blue channel
+            }
+        }
+        probes.bakedProbes = bakedProbes;
+    }
+
     // Update SH coefficients with a vector array.
     public static void UpdateCoeffsWithVectorArray(float[] coeffs, Vector3[] va)
     {
@@ -74,7 +107,7 @@ public static class ProbePolisher
     // Reset the polishable probe (only when it's needed).
     public static void ResetPolisherIfNeeded(LightProbes probes)
     {
-        var coeffs = probes.coefficients;
+        var coeffs = GetCoefficientsArray(probes);
         if (coeffs[27] > -9.0f)
         {
             coeffs[27] = -10.0f;   // Initialization flag
@@ -87,7 +120,7 @@ public static class ProbePolisher
             coeffs[34] = 1.0f;
             coeffs[35] = 0.9f;
             coeffs[36] = 0.0f;     // Y-Axis Rotation
-            probes.coefficients = coeffs;
+            SetCoefficientsArray(probes, coeffs);
         }
     }
 

@@ -48,8 +48,8 @@ class PolishableProbeEditor : Editor
     void ShowPolisherGUI(LightProbes probes)
     {
         ProbePolisher.ResetPolisherIfNeeded(probes);
-        
-        var coeffs = probes.coefficients;
+
+        var coeffs = ProbePolisher.GetCoefficientsArray(probes);
 
         // Retrieve the optional information from the second probe.
         var baseIntensity = coeffs[28];
@@ -99,7 +99,7 @@ class PolishableProbeEditor : Editor
             ProbePolisher.UpdateCoeffsWithVectorArray(coeffs, sh);
 
             // Update the asset.
-            probes.coefficients = coeffs;
+            ProbePolisher.SetCoefficientsArray(probes, coeffs);
         }
 
         EditorGUILayout.Space ();
@@ -120,7 +120,7 @@ class PolishableProbeEditor : Editor
             }
 
             // Update the material.
-            ProbePolisher.UpdateSkyboxMaterial(material, ProbePolisher.NewVectorArrayFromCoeffs(coeffs, 27 * 2));
+            ProbePolisher.UpdateSkyboxMaterial(material, ProbePolisher.NewVectorArrayFromCoeffs(ProbePolisher.GetCoefficientsArray(target as LightProbes), 27 * 2));
         }
     }
 }
