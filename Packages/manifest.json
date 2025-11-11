@@ -1,7 +1,10 @@
 {
   "dependencies": {
     "com.boxqkrtm.ide.cursor": "https://github.com/boxqkrtm/com.unity.ide.cursor.git",
+    "com.unity.entities": "1.4.3",
+    "com.unity.entities.graphics": "1.4.16",
     "com.unity.multiplayer.center": "1.0.0",
+    "com.unity.physics": "1.4.3",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
