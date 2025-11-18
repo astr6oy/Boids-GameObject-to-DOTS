@@ -4,4 +4,9 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Boids_DOTS/Test_DOTS.unity
+    guid: 60c6510d8f88041c3b4e17d4552024a1
+  m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
