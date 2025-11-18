@@ -30,6 +30,39 @@ Unity GameObject 기반 Boids 시뮬레이션을 DOTS/ECS로 포팅하여 성능
 - URP (Universal Render Pipeline)
 - IL2CPP Backend
 
+## Migration Notes
+
+### Unity 6.2 API Changes
+
+**LightProbes API 변경사항**
+- `coefficients` (float[]) → `bakedProbes` (SphericalHarmonicsL2[])
+- 변환 레이어 구현: `ProbePolisher.GetCoefficientsArray()` / `SetCoefficientsArray()`
+- 영향 파일: ProbePolisher.cs, PolishableProbeMixer.cs, PolishableProbeEditor.cs
+
+### Rendering Pipeline
+
+**URP 전환 필수**
+- Entities Graphics는 SRP(URP/HDRP) 전용
+- BatchRendererGroup API 사용
+
+**Scene View 제한사항**
+- Wireframe 모드: Entities 렌더링 미지원
+- Shaded 모드에서만 정상 표시
+
+### DOTS Setup
+
+**필수 패키지**
+- com.unity.entities
+- com.unity.burst
+- com.unity.collections
+- com.unity.mathematics
+- com.unity.entities.graphics
+
+**프로젝트 설정**
+- Scripting Backend: IL2CPP
+- API Level: .NET Standard 2.1
+- Allow unsafe Code: Enable
+
 ## Original Project
 
 - Author: Keijiro Takahashi
